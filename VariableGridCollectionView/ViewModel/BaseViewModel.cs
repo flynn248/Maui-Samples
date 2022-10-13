@@ -1,15 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
 
 namespace VariableGridCollectionView.ViewModel;
 
-public partial class MyViewModel : ObservableObject
+public partial class BaseViewModel : ObservableObject
 {
     [ObservableProperty]
     int span = 1;
-
-    public ObservableCollection<int> Numbers { get; } = new() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
     [RelayCommand]
     void ChangeSpan(int byAmount)

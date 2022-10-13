@@ -1,9 +1,9 @@
 ﻿using VariableGridCollectionView.ViewModel;
 namespace VariableGridCollectionView.View;
 
-public partial class MainPage : ContentPage
+public partial class SingleItemCollections : ContentPage
 {
-	public MainPage(MyViewModel vm)
+	public SingleItemCollections(SingleItemCollectionsViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;

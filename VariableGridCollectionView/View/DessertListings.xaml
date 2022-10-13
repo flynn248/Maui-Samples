@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
-             x:Class="VariableGridCollectionView.View.MainPage"
+             x:Class="VariableGridCollectionView.View.DessertListings"
              xmlns:vm="clr-namespace:VariableGridCollectionView.ViewModel"
-             x:DataType="vm:MyViewModel">
+             xmlns:model="clr-namespace:VariableGridCollectionView.Model"
+             x:DataType="vm:DessertViewModel">
 
     <ContentPage.Resources>
         <x:Int32 x:Key="DecreaseSpanBy">-1</x:Int32>
@@ -26,7 +26,8 @@
 
         <Style x:Key="HeaderLabelStyle" TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
             <Setter Property="FontSize" Value="24"/>
-            <Setter Property="BackgroundColor" Value="Crimson"/>
+            <Setter Property="BackgroundColor" Value="#309"/>
+            <Setter Property="TextColor" Value="#e0cdc7"/>
         </Style>
 
         <Style x:Key="ButtonStyle" TargetType="Button">
@@ -34,76 +35,50 @@
             <Setter Property="VerticalOptions" Value="FillAndExpand"/>
             <Setter Property="Command" Value="{Binding ChangeSpanCommand}"/>
             <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
+            <Setter Property="HeightRequest" Value="45"/>
         </Style>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*,Auto,*,Auto,0.25*"
+    <Grid RowDefinitions="*,Auto"
           ColumnDefinitions="*,*">
 
-        <!--#region Horizontal Grid -->
-        <Label Grid.ColumnSpan="2"
-               Text="Horizontal Grid"               
-               Style="{StaticResource HeaderLabelStyle}"/>
-
-        <CollectionView Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Numbers}"
+        <!--#region Dessert Groups -->
+        <CollectionView Grid.ColumnSpan="2"
+                        ItemsSource="{Binding Desserts}"
                         SelectionMode="Single"
-                        Margin="0,0,0,15">
+                        IsGrouped="True">
+            
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="model:DessertGroup">
+                    <Label Text="{Binding Name}"
+                           Style="{StaticResource HeaderLabelStyle}"/>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type System:Int32}">
-                    <Label Text="{Binding .}"
-                           BackgroundColor="MediumPurple"
+                <DataTemplate x:DataType="model:Dessert">
+                    <Label Text="{Binding Name}"
                            Style="{StaticResource CellLabelStyle}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="{Binding Span}" Orientation="Horizontal"/>
+                <GridItemsLayout Span="{Binding Span}" Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
         </CollectionView>
         <!--#endregion-->
 
-        <!--#region Vertical Grid -->
-        <Label Grid.Row="2"
-               Grid.ColumnSpan="2"
-               Text="Vertical Grid"
-               Style="{StaticResource HeaderLabelStyle}"/>
-
-        <CollectionView Grid.Row="3"
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Numbers}"
-                        SelectionMode="Single"
-                        IsGrouped="True"
-                        Margin="0,0,0,15">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type System:Int32}">
-                    <Label Text="{Binding .}"
-                           BackgroundColor="#7ff"
-                           Style="{StaticResource CellLabelStyle}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Span="{Binding Span}" Orientation="Vertical"/>
-            </CollectionView.ItemsLayout>
-            </CollectionView>
-            <!--#endregion-->
-
-            <Label Grid.Row="4"
-               Grid.ColumnSpan="2"
-               Text="{Binding Span, StringFormat='{}Span Value: {0}'}"
-               Style="{StaticResource HeaderLabelStyle}"/>
-
-            <!--#region Span Controls -->
-            <Button Grid.Row="5"
+        <!--#region Span Controls -->
+        <Button Grid.Row="1"
                 Text="Decrement Span"
                 CommandParameter="{StaticResource DecreaseSpanBy}"
                 Style="{StaticResource ButtonStyle}"/>
 
-            <Button Grid.Row="5"
+        <Button Grid.Row="1"
                 Grid.Column="1"
                 Text="Increment Span"
                 CommandParameter="{StaticResource IncreaseSpanBy}"
                 Style="{StaticResource ButtonStyle}"/>
-            <!--#endregion-->
+        <!--#endregion-->
     </Grid>
 </ContentPage>
